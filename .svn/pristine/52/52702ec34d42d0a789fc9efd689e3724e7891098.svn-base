@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">项目编号：</label>
+								<div class="col-sm-8">
+									<input id="projectNo" th:value="${projectCode}" readonly="readonly" name="projectNo" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">项目来源：</label>
+								<div class="col-sm-8">
+									<!-- <input id="projectResource" name="projectResource" class="form-control" type="text"> -->
+									<select  id="projectResource" name="projectResource" class="form-control">	
+									 		<option value="0"></option>
+									 		<option value="1">社会客户出资工程</option>
+									 		<option value="2">供电公司出资直报</option>
+									 		<option value="3">电力设计院分包</option>
+									 		<option value="4">供电公司三产电力</option>
+									 		
+									</select>
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">项目类型：</label>
+								<div class="col-sm-8">
+									<!-- <input id="projectType" name="projectType" class="form-control" type="text"> -->
+									<select  id="projectType" name="projectType" class="form-control">	
+									 		<option value="0"></option>
+									 		<option value="1">线路</option>
+									 		<option value="2">网改</option>
+									 		<option value="3">变电</option>
+									 		<option value="4">配电</option>
+									 		
+									</select>
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">项目名称：</label>
+								<div class="col-sm-8">
+									<input id="projectName" name="projectName" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">委托单位：</label>
+								<div class="col-sm-8">
+									<input id="customerId" name="customerId" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">业主单位：</label>
+								<div class="col-sm-8">
+									<input id="ownersUnit" name="ownersUnit" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">项目经理：</label>
+								<div class="col-sm-8">
+									<input id="projectManager" name="projectManager" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">销售经理：</label>
+								<div class="col-sm-8">
+									<input id="saleManager" name="saleManager" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">开始日期：</label>
+								<div class="col-sm-8">
+									<input id="startDate" name="startDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">预计完成日期：</label>
+								<div class="col-sm-8">
+									<input id="endDate" name="endDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="form-control" type="text">
+								</div>
+							</div>
+																					
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+						<div class="content_wrap" hidden="hidden">
+						    <div class="zTreeDemoBackground left">
+						        <ul id="treeDemo" class="ztree"></ul>
+						    </div>
+						</div>
+						<div class="content_wrapT" id="content_wrap" hidden="hidden">
+						    <div class="zTreeDemoBackground left">
+						        <ul id="treeDemoT" class="ztree"></ul>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+		<script type="text/javascript" src="/js/zTree3/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/js/zTree3/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/js/appjs/project/project/add.js">
+	</script>
+</body>
+</html>

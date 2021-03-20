@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	
+				
+					
+						<div class="panel panel-default" style="width: 90%;margin: 0px auto;">
+						<div class="panel-heading"><p th:text="'下个节点审核人 : '+${assignName}" style="font-style: red;"></p></div>
+						<div class="panel-heading">审核记录</div>
+							  <table class="table">
+							  	<thead>
+							   		<tr>
+							   			<td>序号</td>
+							   			<td>审核日期</td>
+							   			<td>审核人/审核意见</td>					   			
+							   		</tr>
+							   	</thead>
+							   	<tbody>
+							   	
+							   		<tr th:if="${list} ne null" th:each="obj,objsta:${list}">
+							   			<td th:text="${objsta.count}"></td>
+							   			<td th:text="${#dates.format(obj.createTime,'yyyy-MM-dd')}"></td>
+							   			<td th:text="${obj.value}"></td>
+							   		</tr>
+							   		<tr th:if="${list} eq null">
+							   			<td colspan="3">不存在审核数据</td>
+							   		</tr>
+							   	</tbody>	
+							  </table>
+					  </div>
+				
+	
+	<div th:include="include :: footer"></div>
+</body>
+</html>

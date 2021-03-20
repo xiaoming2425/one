@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wewintech.work.contract.dao.ContractApplyDao">
+
+	<select id="get" resultType="cn.wewintech.work.contract.domain.ContractApplyDO">
+		select `id`,`apply_no`,`apply_id`,`customer_name`,`contract_amount`,`audit_state`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag` from biz_contract_apply where id = #{value}
+			and del_flag = '0'
+	</select>
+
+	<select id="list" resultType="cn.wewintech.work.contract.domain.ContractApplyDO">
+		select `id`,`apply_no`,`apply_id`,`customer_name`,`contract_amount`,`audit_state`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag` from biz_contract_apply
+        <where>  
+          del_flag = '0'
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="applyNo != null and applyNo != ''"> and apply_no = #{applyNo} </if>
+		  		  <if test="applyId != null and applyId != ''"> and apply_id = #{applyId} </if>
+		  		  <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+		  		  <if test="contractAmount != null and contractAmount != ''"> and contract_amount = #{contractAmount} </if>
+		  		  <if test="auditState != null and auditState != ''"> and audit_state = #{auditState} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from biz_contract_apply
+		 <where>
+		  del_flag = '0'  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="applyNo != null and applyNo != ''"> and apply_no = #{applyNo} </if>
+		  		  <if test="applyId != null and applyId != ''"> and apply_id = #{applyId} </if>
+		  		  <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+		  		  <if test="contractAmount != null and contractAmount != ''"> and contract_amount = #{contractAmount} </if>
+		  		  <if test="auditState != null and auditState != ''"> and audit_state = #{auditState} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="cn.wewintech.work.contract.domain.ContractApplyDO">
+		insert into biz_contract_apply
+		(
+			`id`, 
+			`apply_no`, 
+			`apply_id`, 
+			`customer_name`, 
+			`contract_amount`, 
+			`audit_state`, 
+			`create_by`, 
+			`create_date`, 
+			`update_by`, 
+			`update_date`, 
+			`remarks`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{applyNo}, 
+			#{applyId}, 
+			#{customerName}, 
+			#{contractAmount}, 
+			#{auditState}, 
+			#{createBy}, 
+			#{createDate}, 
+			#{updateBy}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.wewintech.work.contract.domain.ContractApplyDO">
+		update biz_contract_apply 
+		<set>
+			<if test="applyNo != null">`apply_no` = #{applyNo}, </if>
+			<if test="applyId != null">`apply_id` = #{applyId}, </if>
+			<if test="customerName != null">`customer_name` = #{customerName}, </if>
+			<if test="contractAmount != null">`contract_amount` = #{contractAmount}, </if>
+			<if test="auditState != null">`audit_state` = #{auditState}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update biz_contract_apply set del_flag = '1' where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		update biz_contract_apply set del_flag = '1' where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

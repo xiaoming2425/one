@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header">
+<style type="text/css">
+input {
+	readonly：readonly
+}
+</style>
+</head>
+
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">申请编号：</label>
+								<div class="col-sm-8">
+									<input id="applyNo" name="applyNo" th:value="${invoice.applyNo}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">发票种类：</label>
+								<div class="col-sm-8">
+									<!-- <input id="invoiceType" name="invoiceType" class="form-control" type="text"> -->
+									<label class="radio-inline"><input name="invoiceType" th:field="${invoice.invoiceType}" type="radio" value="1" > 增值税发票 </label>&nbsp;&nbsp; <label class="radio-inline"><input th:field="${invoice.invoiceType}" name="invoiceType"  type="radio" value="2" > 普通发票 </label>
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">经营模式：</label>
+								<div class="col-sm-8">
+									<!-- <input id="specializeType" name="specializeType" class="form-control" type="text"> -->
+									<label class="radio-inline"><input th:field="${invoice.specializeType}" name="specializeType" type="radio" value="1" > 自营 </label>
+									<label class="radio-inline"><input th:field="${invoice.specializeType}" name="specializeType" type="radio" value="2" > 合作 </label>
+									<label class="radio-inline"><input th:field="${invoice.specializeType}" name="specializeType" type="radio" value="3" > 挂靠 </label>
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">回款方式：</label>
+								<div class="col-sm-8">
+									<!-- <input id="backCostType" name="backCostType" class="form-control" type="text"> -->
+									<label class="radio-inline"><input th:field="${invoice.backCostType}" name="backCostType" type="radio" value="1" > 转账 </label>
+									<label class="radio-inline"><input th:field="${invoice.backCostType}" name="backCostType" type="radio" value="2" > 现金 </label>
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">合同进展 ：</label>
+								<div class="col-sm-8">
+									<!-- <input id="contractProgress" name="contractProgress" class="form-control" type="text"> -->
+									<label class="radio-inline"><input th:field="${invoice.contractProgress}" name="contractProgress" type="radio" value="1" > 已签 </label>
+									<label class="radio-inline"><input th:field="${invoice.contractProgress}" name="contractProgress" type="radio" value="2" > 待签 </label>
+									<label class="radio-inline"><input th:field="${invoice.backCostType}" name="contractProgress" type="radio" value="3" > 无合同 </label>
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">开具单位名称：</label>
+								<div class="col-sm-8">
+									<input id="companyName" name="companyName" th:value="${invoice.companyName}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">纳税人识别号：</label>
+								<div class="col-sm-8">
+									<input id="identificationNo" th:value="${invoice.identificationNo}" name="identificationNo" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">地址：</label>
+								<div class="col-sm-8">
+									<input id="address" name="address" th:value="${invoice.address}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">电话：</label>
+								<div class="col-sm-8">
+									<input id="phoneNo" name="phoneNo" th:value="${invoice.phoneNo}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">开户行：</label>
+								<div class="col-sm-8">
+									<input id="bank" name="bank" th:value="${invoice.bank}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">账号：</label>
+								<div class="col-sm-8">
+									<input id="account" name="account"  th:value="${invoice.account}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">开票申请人：</label>
+								<div class="col-sm-8">
+									<input id="invoiceApplyId" th:value="${invoice.invoiceApplyId}" name="invoiceApplyId" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">申请日期：</label>
+								<div class="col-sm-8">
+									<input id="applyDate" name="applyDate" th:value="${#calendars.format(invoice.applyDate,'yyyy-MM-dd')}"  readonly="readonly"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">开票人：</label>
+								<div class="col-sm-8">
+									<input id="doInvociceId" name="doInvociceId" th:value="${invoice.doInvociceId}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">开票日期：</label>
+								<div class="col-sm-8">
+									<input id="doInvoiceDate"  th:value="${#calendars.format(invoice.doInvoiceDate,'yyyy-MM-dd')}" name="doInvoiceDate" readonly="readonly"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="form-control" type="text">
+								</div>
+							</div>
+							<input type="hidden" name="auditState" value="0">
+							<input type="hidden" name="str" />
+							<div class="panel panel-default">
+							  <!-- Default panel contents -->
+							  <div class="panel-heading">开票项目</div>
+							
+							  <!-- Table -->
+							  <table class="table" id="plantable">
+							    	<thead>
+							    			<tr>
+							    				<th>序号</th>
+							    				<th>开票名称</th>
+							    				<th>金额</th>
+							    				<th>项目名称</th>
+							    			</tr>
+							    	</thead>
+							    	<tbody>
+							    			<tr th:each="obj,objsta:${findlist}">
+							    				<td th:text="${objsta.count}"></td>
+							    				<td th:text="${obj.invoiceName}"></td>
+							    				<td th:text="${obj.amount}"></td>
+							    				<td th:text="${obj.projectName}"></td>
+							    			</tr>
+							    			<tr>
+							    				<td>合计金额</td>
+							    				<td></td>
+							    				<td></td>
+							    			</tr>
+							    	</tbody>
+							  </table>
+							</div>
+																					
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="button" onclick="history.go(-1)" class="btn btn-primary">取消返回</button>
+								</div>
+							</div>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/work/invoice/add.js">
+	</script>
+</body>
+</html>

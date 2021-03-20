@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wewintech.activiti.dao.BusiAuditDao">
+
+	
+	<!-- 添加审核记录 -->
+	<insert id="insertAuditRecord">
+		INSERT INTO biz_audit_record(
+			id,
+			busi_record_id,
+			proc_ins_id,
+			task_def_key,
+			task_name,
+			audit_operate_type,
+			audit_opinion,
+			audit_user_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+
+		) VALUES (
+			#{id},
+			#{busiRecordId},
+			#{procInsId},
+			#{taskDefKey},
+			#{taskName},
+			#{auditOperateType},
+			#{auditOpinion},
+			#{auditUserId},
+			#{createBy},
+			#{createDate},
+			#{updateBy},
+			#{updateDate}
+
+
+		)
+	</insert>
+
+	
+	
+	<sql id="auditInfoROColumns">
+		ar.id,
+		ar.busi_record_id,
+		ar.proc_ins_id,
+		ar.task_def_key,
+		ar.task_name,
+		ar.audit_operate_type,
+		ar.audit_opinion,
+		ar.audit_user_id,
+		u.name AS "auditUsername",
+		ar.create_by,
+		ar.create_date AS "createDate",
+		ar.update_by,
+		ar.update_date,
+		ar.del_flag
+		
+	</sql>
+	
+	<!-- 查询审核信息列表 -->
+	<select id="findAuditInfoList" resultType="cn.wewintech.activiti.domain.AuditInfoRO">
+		select
+			<include refid="auditInfoROColumns"/>
+		from biz_audit_record ar left join sys_user u on u.user_id = ar.audit_user_id
+		where busi_record_id = #{id} and ar.del_flag=0 order by ar.create_date asc
+	</select>
+	
+</mapper>

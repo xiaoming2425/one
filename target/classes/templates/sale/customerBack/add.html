@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+					<div class="panel panel-default">
+							  <div class="panel-heading">客户资料</div>
+					
+					<table class="table">
+							<tr>
+								<td>客户编号 :</td>
+								<td><input  readonly="readonly" th:value="${customerDO.customerNo}"  class="form-control" type="text"></td>
+								<td>客户名称 :</td>
+								<td><input readonly="readonly" th:value="${customerDO.customerName}"  class="form-control" type="text"></td>
+							</tr><tr>
+								<td>客户类型 :</td>
+								<td><input readonly="readonly" th:value="${customerDO.customerType}"  class="form-control" type="text"></td>
+								<td>客户来源 :</td>
+								<td><input readonly="readonly" th:value="${customerDO.customerResource}"  class="form-control" type="text"></td>
+							</tr><tr>
+								<td>客户经理 :</td>
+								<td><input readonly="readonly" th:value="${customerDO.suName}"  class="form-control" type="text"></td>
+								<td>所属机构 :</td>
+								<td><input readonly="readonly" th:value="${customerDO.sdName}"  class="form-control" type="text"></td>
+							</tr><tr>
+								<td >详细地址 :</td>
+								<td colspan="3"><input readonly="readonly" th:value="${customerDO.detailAddress}"  class="form-control" type="text"></td>
+								
+							
+					</table>
+					</div>
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">历史回访记录</div>
+							  <table class="table">
+							  	<thead>
+							   		<tr>
+							   			<td>序号</td>
+							   			<td>回访日期</td>
+							   			<td>回访人</td>
+							   			<td>受访人</td>
+							   			<td>受访人职务</td>
+							   			<td>回访记录</td>
+							   		</tr>
+							   	</thead>
+							   	<tbody>
+							   		<tr th:each="obj,objsta:${list}">
+							   			<td th:text="${objsta.count}"></td>
+							   			<td th:text="${#dates.format(obj.backDate,'yyyy-MM-dd')}"></td>
+							   			<td th:text="${obj.name}"></td>
+							   			<td th:text="${obj.backName}"></td>
+							   			<td th:text="${obj.backPosition}"></td>
+							   			<td th:text="${obj.remarks}"></td>
+							   		</tr>
+							   	</tbody>	
+							  </table>
+					</div>
+					
+					<div class="panel panel-default">
+					  <div class="panel-heading">回访记录</div>
+					  <div class="panel-body">
+					
+						<form class="form-horizontal m-t" id="signupForm">
+						<input name="customerId" th:value="${customerDO.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">回访日期：</label>
+								<div class="col-sm-8">
+									<input id="backDate" name="backDate"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="form-control" type="text">
+									
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">回访人：</label>
+								<div class="col-sm-8">
+									<input id="userId" name="userId" readonly="readonly" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">受访人：</label>
+								<div class="col-sm-8">
+									<input id="backName" name="backName" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">受访人职务：</label>
+								<div class="col-sm-8">
+									<input id="backPosition" name="backPosition" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">下次回访日期：</label>
+								<div class="col-sm-8">
+									<input id="nextBackDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="nextBackDate" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">回访记录：</label>
+								<div class="col-sm-8">
+									<!-- <input id="remarks" name="remarks" class="form-control" type="text"> -->
+									<textarea name="remarks" class="form-control" ></textarea>
+								</div>
+							</div>																					
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+							<div class="content_wrap" hidden="hidden">
+							    <div class="zTreeDemoBackground left">
+							        <ul id="treeDemo" class="ztree"></ul>
+							    </div>
+			               </div>
+							
+						</form>
+						
+			
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			 
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/zTree3/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/js/zTree3/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/js/appjs/sale/customerBack/add.js">
+	</script>
+</body>
+</html>

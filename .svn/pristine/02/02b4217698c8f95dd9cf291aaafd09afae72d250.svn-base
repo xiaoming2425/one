@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input type="hidden" name="AuditState" value="0"/>
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">项目名称：</label>
+							<div class="col-sm-8">
+								<input id="projectName" name="projectName"  class="form-control" readonly="readonly" type="text">
+									<input id="taskTrackId" name="taskTrackId"  class="form-control" type="hidden">
+								</div>
+							</div>
+							                                       <div class="form-group">	
+								<label class="col-sm-3 control-label">项目阶段：</label>
+								<div class="col-sm-8">
+									<input id="stage" name="stage"  class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">外委单位：</label>
+								<div class="col-sm-8">
+									<input id="commissionCompany" name="commissionCompany" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">委托部门：</label>
+								<div class="col-sm-8">
+									<input id="commissionDepartment" onclick="openLayer(this)" name="commissionDepartment" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">委托人：</label>
+								<div class="col-sm-8">
+									<input id="commissionId" name="commissionId" readonly="readonly" onclick="openLayert(this)" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">编制人：</label>
+								<div class="col-sm-8">
+									<input id="productId" name="productId" readonly="readonly" onclick="openLayert(this)" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">校核人：</label>
+								<div class="col-sm-8">
+									<input id="checkId" name="checkId" readonly="readonly" onclick="openLayert(this)" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">工程造价：</label>
+								<div class="col-sm-8">
+									<input id="progressAmount" name="progressAmount" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">前期费：</label>
+								<div class="col-sm-8">
+									<input id="earlydayAmount" name="earlydayAmount" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">勘察费：</label>
+								<div class="col-sm-8">
+									<input id="holacsalAmount" name="holacsalAmount" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">基本设计费/合同金额：</label>
+								<div class="col-sm-8">
+									<input id="contractAmount" name="contractAmount" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">施工图预算编制费：</label>
+								<div class="col-sm-8">
+									<input id="forecastAmount" name="forecastAmount" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">	
+								<label class="col-sm-3 control-label">竣工图编制费：</label>
+								<div class="col-sm-8">
+									<input id="comletedAmount" name="comletedAmount" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+						
+						<div class="content_wrap" hidden="hidden">
+						    <div class="zTreeDemoBackground left">
+						        <ul id="treeDemo" class="ztree"></ul>
+						    </div>
+						</div>
+						<div class="content_wrapt" id="content_wrap" hidden="hidden">
+						    <div class="zTreeDemoBackground left">
+						        <ul id="treeDemot" class="ztree"></ul>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/zTree3/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/js/zTree3/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/js/appjs/project/technicalEconomy/add.js">
+	</script>
+</body>
+</html>

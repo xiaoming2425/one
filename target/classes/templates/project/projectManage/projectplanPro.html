@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header">
+
+</head>
+<style>
+ #transmit {
+ 	margin-left: 85%;
+ }
+ 
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="项目名称">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+				<div>
+						
+						<button class="layui-btn layui-btn-primary" id="transmit">确定</button>
+						<button class="layui-btn layui-btn-primary" id="closeIframe">取消</button>
+   				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/project/projectManage/projectplanPro.js"></script>
+</body>
+</html>

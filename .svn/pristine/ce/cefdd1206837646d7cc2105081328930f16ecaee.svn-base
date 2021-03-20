@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wewintech.work.invoice.dao.InvoiceDao">
+
+	<select id="get" resultType="cn.wewintech.work.invoice.domain.InvoiceDO">
+		select `id`,`apply_no`,`invoice_type`,`specialize_type`,`back_cost_type`,`contract_progress`,`company_name`,`identification_no`,`address`,`phone_no`,`bank`,`account`,`invoice_apply_id`,`apply_date`,`do_invocice_id`,`do_invoice_date`,`audit_state`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag` from biz_invoice where id = #{value}
+			and del_flag = '0'
+	</select>
+
+	<select id="list" resultType="cn.wewintech.work.invoice.domain.InvoiceDO">
+		select `id`,`apply_no`,`invoice_type`,`specialize_type`,`back_cost_type`,`contract_progress`,`company_name`,`identification_no`,`address`,`phone_no`,`bank`,`account`,`invoice_apply_id`,`apply_date`,`do_invocice_id`,`do_invoice_date`,`audit_state`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag` from biz_invoice
+        <where>  
+          del_flag = '0'
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="applyNo != null and applyNo != ''"> and apply_no = #{applyNo} </if>
+		  		  <if test="invoiceType != null and invoiceType != ''"> and invoice_type = #{invoiceType} </if>
+		  		  <if test="specializeType != null and specializeType != ''"> and specialize_type = #{specializeType} </if>
+		  		  <if test="backCostType != null and backCostType != ''"> and back_cost_type = #{backCostType} </if>
+		  		  <if test="contractProgress != null and contractProgress != ''"> and contract_progress = #{contractProgress} </if>
+		  		  <if test="companyName != null and companyName != ''"> and company_name = #{companyName} </if>
+		  		  <if test="identificationNo != null and identificationNo != ''"> and identification_no = #{identificationNo} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="phoneNo != null and phoneNo != ''"> and phone_no = #{phoneNo} </if>
+		  		  <if test="bank != null and bank != ''"> and bank = #{bank} </if>
+		  		  <if test="account != null and account != ''"> and account = #{account} </if>
+		  		  <if test="invoiceApplyId != null and invoiceApplyId != ''"> and invoice_apply_id = #{invoiceApplyId} </if>
+		  		  <if test="applyDate != null and applyDate != ''"> and apply_date = #{applyDate} </if>
+		  		  <if test="doInvociceId != null and doInvociceId != ''"> and do_invocice_id = #{doInvociceId} </if>
+		  		  <if test="doInvoiceDate != null and doInvoiceDate != ''"> and do_invoice_date = #{doInvoiceDate} </if>
+		  		  <if test="auditState != null and auditState != ''"> and audit_state = #{auditState} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from biz_invoice
+		 <where>
+		  del_flag = '0'  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="applyNo != null and applyNo != ''"> and apply_no = #{applyNo} </if>
+		  		  <if test="invoiceType != null and invoiceType != ''"> and invoice_type = #{invoiceType} </if>
+		  		  <if test="specializeType != null and specializeType != ''"> and specialize_type = #{specializeType} </if>
+		  		  <if test="backCostType != null and backCostType != ''"> and back_cost_type = #{backCostType} </if>
+		  		  <if test="contractProgress != null and contractProgress != ''"> and contract_progress = #{contractProgress} </if>
+		  		  <if test="companyName != null and companyName != ''"> and company_name = #{companyName} </if>
+		  		  <if test="identificationNo != null and identificationNo != ''"> and identification_no = #{identificationNo} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="phoneNo != null and phoneNo != ''"> and phone_no = #{phoneNo} </if>
+		  		  <if test="bank != null and bank != ''"> and bank = #{bank} </if>
+		  		  <if test="account != null and account != ''"> and account = #{account} </if>
+		  		  <if test="invoiceApplyId != null and invoiceApplyId != ''"> and invoice_apply_id = #{invoiceApplyId} </if>
+		  		  <if test="applyDate != null and applyDate != ''"> and apply_date = #{applyDate} </if>
+		  		  <if test="doInvociceId != null and doInvociceId != ''"> and do_invocice_id = #{doInvociceId} </if>
+		  		  <if test="doInvoiceDate != null and doInvoiceDate != ''"> and do_invoice_date = #{doInvoiceDate} </if>
+		  		  <if test="auditState != null and auditState != ''"> and audit_state = #{auditState} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="cn.wewintech.work.invoice.domain.InvoiceDO">
+		insert into biz_invoice
+		(
+			`id`, 
+			`apply_no`, 
+			`invoice_type`, 
+			`specialize_type`, 
+			`back_cost_type`, 
+			`contract_progress`, 
+			`company_name`, 
+			`identification_no`, 
+			`address`, 
+			`phone_no`, 
+			`bank`, 
+			`account`, 
+			`invoice_apply_id`, 
+			`apply_date`, 
+			`do_invocice_id`, 
+			`do_invoice_date`, 
+			`audit_state`, 
+			`create_by`, 
+			`create_date`, 
+			`update_by`, 
+			`update_date`, 
+			`remarks`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{applyNo}, 
+			#{invoiceType}, 
+			#{specializeType}, 
+			#{backCostType}, 
+			#{contractProgress}, 
+			#{companyName}, 
+			#{identificationNo}, 
+			#{address}, 
+			#{phoneNo}, 
+			#{bank}, 
+			#{account}, 
+			#{invoiceApplyId}, 
+			#{applyDate}, 
+			#{doInvociceId}, 
+			#{doInvoiceDate}, 
+			#{auditState}, 
+			#{createBy}, 
+			#{createDate}, 
+			#{updateBy}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.wewintech.work.invoice.domain.InvoiceDO">
+		update biz_invoice 
+		<set>
+			<if test="applyNo != null">`apply_no` = #{applyNo}, </if>
+			<if test="invoiceType != null">`invoice_type` = #{invoiceType}, </if>
+			<if test="specializeType != null">`specialize_type` = #{specializeType}, </if>
+			<if test="backCostType != null">`back_cost_type` = #{backCostType}, </if>
+			<if test="contractProgress != null">`contract_progress` = #{contractProgress}, </if>
+			<if test="companyName != null">`company_name` = #{companyName}, </if>
+			<if test="identificationNo != null">`identification_no` = #{identificationNo}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="phoneNo != null">`phone_no` = #{phoneNo}, </if>
+			<if test="bank != null">`bank` = #{bank}, </if>
+			<if test="account != null">`account` = #{account}, </if>
+			<if test="invoiceApplyId != null">`invoice_apply_id` = #{invoiceApplyId}, </if>
+			<if test="applyDate != null">`apply_date` = #{applyDate}, </if>
+			<if test="doInvociceId != null">`do_invocice_id` = #{doInvociceId}, </if>
+			<if test="doInvoiceDate != null">`do_invoice_date` = #{doInvoiceDate}, </if>
+			<if test="auditState != null">`audit_state` = #{auditState}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update biz_invoice set del_flag = '1' where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		update biz_invoice set del_flag = '1' where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<insert id="saveInvoice" parameterType="cn.wewintech.work.invoice.domain.InvoiceDO">
+		insert into biz_invocie_project(
+		id,
+		invoice_name,
+		amount,
+		project_name,
+		invoice_id
+		)
+		value
+		(
+		#{id},
+		#{invoiceName},
+		#{amount},
+		#{projectName},
+		#{invoiceId}
+		)
+	</insert>
+
+</mapper>

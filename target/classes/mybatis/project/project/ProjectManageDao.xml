@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wewintech.project.project.dao.ProjectManageDao">
+
+	<select id="get" resultType="cn.wewintech.project.project.domain.ProjectManageDO">
+		select `id`,`project_id`,`stage`,`professional`,`design`,`user_id`,`start_date`,`end_date`,`rate`,`sort`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag`,`audit_state`,`project_plan_id` from biz_project_manage where id = #{value}
+			and del_flag = '0'
+	</select>
+
+	<select id="list" resultType="cn.wewintech.project.project.domain.ProjectManageDO">
+		select `id`,`project_id`,`stage`,`professional`,`design`,`user_id`,`start_date`,`end_date`,`rate`,`sort`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag`,`audit_state`,`project_plan_id` from biz_project_manage
+
+        <where>  
+          del_flag = '0'
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="projectId != null and projectId != ''"> and project_id = #{projectId} </if>
+		  		  <if test="stage != null and stage != ''"> and stage = #{stage} </if>
+		  		  <if test="professional != null and professional != ''"> and professional = #{professional} </if>
+		  		  <if test="design != null and design != ''"> and design = #{design} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="startDate != null and startDate != ''"> and start_date = #{startDate} </if>
+		  		  <if test="endDate != null and endDate != ''"> and end_date = #{endDate} </if>
+		  		  <if test="rate != null and rate != ''"> and rate = #{rate} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="auditState != null and auditState != ''"> and audit_state = #{auditState} </if>
+		  		   <if test="projectPlanId != null and projectPlanId != ''"> and project_plan_id = #{projectPlanId} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	
+	<select id="listManager" resultType="cn.wewintech.project.project.domain.ProjectManageDO">
+		select bpm.`id`,bpm.`project_id`,bpm.`stage`,bpm.`professional`,bpm.`design`,bpm.`user_id`,
+		bpm.`start_date`,bpm.`end_date`,bpm.`rate`,bpm.`sort`,bpm.`create_by`,bpm.`create_date`,
+		bpm.`update_by`,bpm.`update_date`,bpm.`remarks`,bpm.`del_flag`,bpm.`audit_state`,bpm.`project_plan_id`, 
+		bp.`project_name`,bp.`project_no`,bp.`project_plan_state`
+		from biz_project_manage bpm
+        left join biz_project bp on bp.project_plan_id=bpm.project_plan_id
+        <where>  
+          bpm.del_flag = '0' and bpm.project_plan_id is not null 
+		  		  <if test="id != null and id != ''"> and bpm.id = #{id} </if>
+		  		  <if test="projectId != null and projectId != ''"> and bpm.project_id = #{projectId} </if>
+		  		  <if test="stage != null and stage != ''"> and bpm.stage = #{stage} </if>
+		  		  <if test="professional != null and professional != ''"> and bpm.professional = #{professional} </if>
+		  		  <if test="design != null and design != ''"> and bpm.design = #{design} </if>
+		  		  <if test="userId != null and userId != ''"> and bpm.user_id = #{userId} </if>
+		  		  <if test="startDate != null and startDate != ''"> and bpm.start_date = #{startDate} </if>
+		  		  <if test="endDate != null and endDate != ''"> and bpm.end_date = #{endDate} </if>
+		  		  <if test="rate != null and rate != ''"> and bpm.rate = #{rate} </if>
+		  		  <if test="sort != null and sort != ''"> and bpm.sort = #{sort} </if>
+		  		  <if test="createBy != null and createBy != ''"> and bpm.create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and bpm.create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and bpm.update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and bpm.update_date = #{updateDate} </if>
+		  		  <if test="auditState != null and auditState != ''"> and bpm.audit_state = #{auditState} </if>
+		  		   <if test="projectName != null and projectName != ''"> and bp.project_name like concat('%',#{projectName},'%')</if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	
+ 	<select id="count" resultType="int">
+		select count(*) from biz_project_manage
+		 <where>
+		  del_flag = '0'  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="projectId != null and projectId != ''"> and project_id = #{projectId} </if>
+		  		  <if test="stage != null and stage != ''"> and stage = #{stage} </if>
+		  		  <if test="professional != null and professional != ''"> and professional = #{professional} </if>
+		  		  <if test="design != null and design != ''"> and design = #{design} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="startDate != null and startDate != ''"> and start_date = #{startDate} </if>
+		  		  <if test="endDate != null and endDate != ''"> and end_date = #{endDate} </if>
+		  		  <if test="rate != null and rate != ''"> and rate = #{rate} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		  <if test="auditState != null and auditState != ''"> and audit_state = #{auditState} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="cn.wewintech.project.project.domain.ProjectManageDO">
+		insert into biz_project_manage
+		(
+			`id`, 
+			`project_id`, 
+			`stage`, 
+			`professional`, 
+			`design`, 
+			`user_id`, 
+			`start_date`, 
+			`end_date`, 
+			`rate`, 
+			`sort`, 
+			`create_by`, 
+			`create_date`, 
+			`update_by`, 
+			`update_date`, 
+			`remarks`, 
+			`del_flag`, 
+			`audit_state`,
+			`project_plan_id`,
+			`process`
+		)
+		values
+		(
+			#{id}, 
+			#{projectId}, 
+			#{stage}, 
+			#{professional}, 
+			#{design}, 
+			#{userId}, 
+			#{startDate}, 
+			#{endDate}, 
+			#{rate}, 
+			#{sort}, 
+			#{createBy}, 
+			#{createDate}, 
+			#{updateBy}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}, 
+			#{auditState},
+			#{projectPlanId},
+			#{process}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.wewintech.project.project.domain.ProjectManageDO">
+		update biz_project_manage 
+		<set>
+			<if test="projectId != null">`project_id` = #{projectId}, </if>
+			<if test="stage != null">`stage` = #{stage}, </if>
+			<if test="professional != null">`professional` = #{professional}, </if>
+			<if test="design != null">`design` = #{design}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="startDate != null">`start_date` = #{startDate}, </if>
+			<if test="endDate != null">`end_date` = #{endDate}, </if>
+			<if test="rate != null">`rate` = #{rate}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}, </if>
+			<if test="auditState != null">`audit_state` = #{auditState},</if>
+			<if test="projectPlanId != null">`project_plan_id` = #{projectPlanId}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update biz_project_manage set del_flag = '1' where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		update biz_project_manage set del_flag = '1' where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

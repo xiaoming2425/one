@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${project.id}"  type="hidden">
+<div class="form-group">	
+								<label class="col-sm-3 control-label">项目编号：</label>
+								<div class="col-sm-8">
+									<input id="projectNo" name="projectNo" th:value="${project.projectNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">项目来源：</label>
+								<div class="col-sm-8">
+									<input id="projectResource" name="projectResource" th:value="${project.projectResource}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">项目类型：</label>
+								<div class="col-sm-8">
+									<input id="projectType" name="projectType" th:value="${project.projectType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">项目名称：</label>
+								<div class="col-sm-8">
+									<input id="projectName" name="projectName" th:value="${project.projectName}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">委托单位：</label>
+								<div class="col-sm-8">
+									<input id="customerId" name="customerId" th:value="${project.customerId}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">业主单位：</label>
+								<div class="col-sm-8">
+									<input id="ownersUnit" name="ownersUnit" th:value="${project.ownersUnit}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">项目经理：</label>
+								<div class="col-sm-8">
+									<input id="projectManager" name="projectManager" th:value="${project.projectManager}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">销售经理：</label>
+								<div class="col-sm-8">
+									<input id="saleManager" name="saleManager" th:value="${project.saleManager}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">开始日期：</label>
+								<div class="col-sm-8">
+									<input id="startDate" name="startDate"  th:value="${#calendars.format(project.startDate,'yyyy-MM-dd')}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">预计完成日期：</label>
+								<div class="col-sm-8">
+									<input id="endDate" name="endDate" th:value="${project.endDate}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+                            <label class="col-sm-3 control-label">审核意见 ：</label>
+                            <div class="col-sm-8">
+                                <textarea id="taskComment" name="taskComment" 
+                                          class="form-control"></textarea>
+                            </div>
+                        </div>
+							<input type="hidden" name="auditMsg" id="auditMsg"  />
+							<input type="hidden" th:value="${taskId}" name="taskId" />
+							<input type="hidden" th:value="${processInstanceId}" name="processInstanceId"  />
+							
+														<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary" onclick="$('#auditMsg').val('1')">同意</button>
+									<button type="submit" class="btn btn-primary" onclick="$('#auditMsg').val('0')">退回</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/project/project/editAudit.js">
+	</script>
+</body>
+</html>

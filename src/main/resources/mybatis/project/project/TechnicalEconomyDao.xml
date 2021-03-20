@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wewintech.project.project.dao.TechnicalEconomyDao">
+
+	<select id="get" resultType="cn.wewintech.project.project.domain.TechnicalEconomyDO">
+		select bte.`id`,bte.`task_track_id`,bte.`commission_company`,bte.`commission_department`,bte.`commission_id`,bte.`product_id`,bte.`check_id`,bte.`progress_amount`,bte.`earlyday_amount`,bte.`holacsal_amount`,bte.`contract_amount`,
+		bte.`forecast_amount`,bte.`comleted_amount`,bte.`audit_state`,bte.`create_by`,bte.`create_date`,bte.`update_by`,bte.`update_date`,
+		bte.`remarks`,bte.`del_flag`,bp.`project_name`,bpm.`stage`,bpm.`project_id`
+		 from biz_technical_economy bte
+		 left join biz_project_manage bpm on bpm.id=bte.task_track_id
+		 left join biz_project bp on bp.id=bpm.project_id
+		  where bte.id = #{value}
+			and bte.del_flag = '0'
+	</select>
+
+	<select id="list" resultType="cn.wewintech.project.project.domain.TechnicalEconomyDO">
+		select bte.`id`,bte.`task_track_id`,bte.`commission_company`,bte.`commission_department`,bte.`commission_id`,bte.`product_id`,
+		bte.`check_id`,bte.`progress_amount`,bte.`earlyday_amount`,bte.`holacsal_amount`,bte.`contract_amount`,bte.`forecast_amount`,
+		bte.`comleted_amount`,bte.`audit_state`,bte.`create_by`,bte.`create_date`,bte.`update_by`,bte.`update_date`,bte.`remarks`,bte.`del_flag`,
+		 bp.`project_name`,bpm.`stage`
+		 from biz_technical_economy bte
+		 left join biz_project_manage bpm on bpm.id=bte.task_track_id
+		 left join biz_project bp on bp.id=bpm.project_id
+        <where>  
+          bte.del_flag = '0'
+		  		  <if test="id != null and id != ''"> and bte.id = #{id} </if>
+		  		  <if test="taskTrackId != null and taskTrackId != ''"> and bte.task_track_id = #{taskTrackId} </if>
+		  		  <if test="commissionCompany != null and commissionCompany != ''"> and bte.commission_company = #{commissionCompany} </if>
+		  		  <if test="commissionDepartment != null and commissionDepartment != ''"> and bte.commission_department = #{commissionDepartment} </if>
+		  		  <if test="commissionId != null and commissionId != ''"> and bte.commission_id = #{commissionId} </if>
+		  		  <if test="productId != null and productId != ''"> and bte.product_id = #{productId} </if>
+		  		  <if test="checkId != null and checkId != ''"> and bte.check_id = #{checkId} </if>
+		  		  <if test="progressAmount != null and progressAmount != ''"> and bte.progress_amount = #{progressAmount} </if>
+		  		  <if test="earlydayAmount != null and earlydayAmount != ''"> and bte.earlyday_amount = #{earlydayAmount} </if>
+		  		  <if test="holacsalAmount != null and holacsalAmount != ''"> and bte.holacsal_amount = #{holacsalAmount} </if>
+		  		  <if test="contractAmount != null and contractAmount != ''"> and bte.contract_amount = #{contractAmount} </if>
+		  		  <if test="forecastAmount != null and forecastAmount != ''"> and bte.forecast_amount = #{forecastAmount} </if>
+		  		  <if test="comletedAmount != null and comletedAmount != ''"> and bte.comleted_amount = #{comletedAmount} </if>
+		  		  <if test="auditState != null and auditState != ''"> and bte.audit_state = #{auditState} </if>
+		  		  <if test="createBy != null and createBy != ''"> and bte.create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and bte.create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and bte.update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and bte.update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and bte.remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and bte.del_flag = #{delFlag} </if>
+		  		  <if test="projectName != null and projectName != ''"> and bp.project_name like concat('%',#{projectName},'%') </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by bte.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from biz_technical_economy bte
+		 left join biz_project_manage bpm on bpm.id=bte.task_track_id
+		 left join biz_project bp on bp.id=bpm.project_id
+		 <where>
+		  bte.del_flag = '0'  
+		  		  <if test="id != null and id != ''"> and bte.id = #{id} </if>
+		  		  <if test="taskTrackId != null and taskTrackId != ''"> and bte.task_track_id = #{taskTrackId} </if>
+		  		  <if test="commissionCompany != null and commissionCompany != ''"> and bte.commission_company = #{commissionCompany} </if>
+		  		  <if test="commissionDepartment != null and commissionDepartment != ''"> and bte.commission_department = #{commissionDepartment} </if>
+		  		  <if test="commissionId != null and commissionId != ''"> and bte.commission_id = #{commissionId} </if>
+		  		  <if test="productId != null and productId != ''"> and bte.product_id = #{productId} </if>
+		  		  <if test="checkId != null and checkId != ''"> and bte.check_id = #{checkId} </if>
+		  		  <if test="progressAmount != null and progressAmount != ''"> and bte.progress_amount = #{progressAmount} </if>
+		  		  <if test="earlydayAmount != null and earlydayAmount != ''"> and bte.earlyday_amount = #{earlydayAmount} </if>
+		  		  <if test="holacsalAmount != null and holacsalAmount != ''"> and bte.holacsal_amount = #{holacsalAmount} </if>
+		  		  <if test="contractAmount != null and contractAmount != ''"> and bte.contract_amount = #{contractAmount} </if>
+		  		  <if test="forecastAmount != null and forecastAmount != ''"> and bte.forecast_amount = #{forecastAmount} </if>
+		  		  <if test="comletedAmount != null and comletedAmount != ''"> and bte.comleted_amount = #{comletedAmount} </if>
+		  		  <if test="auditState != null and auditState != ''"> and bte.audit_state = #{auditState} </if>
+		  		  <if test="createBy != null and createBy != ''"> and bte.create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and bte.create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and bte.update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and bte.update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and bte.remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and bte.del_flag = #{delFlag} </if>
+		  		   <if test="projectName != null and projectName != ''"> and bp.project_name like concat('%',#{projectName},'%') </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="cn.wewintech.project.project.domain.TechnicalEconomyDO">
+		insert into biz_technical_economy
+		(
+			`id`, 
+			`task_track_id`, 
+			`commission_company`, 
+			`commission_department`, 
+			`commission_id`, 
+			`product_id`, 
+			`check_id`, 
+			`progress_amount`, 
+			`earlyday_amount`, 
+			`holacsal_amount`, 
+			`contract_amount`, 
+			`forecast_amount`, 
+			`comleted_amount`, 
+			`audit_state`, 
+			`create_by`, 
+			`create_date`, 
+			`update_by`, 
+			`update_date`, 
+			`remarks`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{taskTrackId}, 
+			#{commissionCompany}, 
+			#{commissionDepartment}, 
+			#{commissionId}, 
+			#{productId}, 
+			#{checkId}, 
+			#{progressAmount}, 
+			#{earlydayAmount}, 
+			#{holacsalAmount}, 
+			#{contractAmount}, 
+			#{forecastAmount}, 
+			#{comletedAmount}, 
+			#{auditState}, 
+			#{createBy}, 
+			#{createDate}, 
+			#{updateBy}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.wewintech.project.project.domain.TechnicalEconomyDO">
+		update biz_technical_economy 
+		<set>
+			<if test="taskTrackId != null">`task_track_id` = #{taskTrackId}, </if>
+			<if test="commissionCompany != null">`commission_company` = #{commissionCompany}, </if>
+			<if test="commissionDepartment != null">`commission_department` = #{commissionDepartment}, </if>
+			<if test="commissionId != null">`commission_id` = #{commissionId}, </if>
+			<if test="productId != null">`product_id` = #{productId}, </if>
+			<if test="checkId != null">`check_id` = #{checkId}, </if>
+			<if test="progressAmount != null">`progress_amount` = #{progressAmount}, </if>
+			<if test="earlydayAmount != null">`earlyday_amount` = #{earlydayAmount}, </if>
+			<if test="holacsalAmount != null">`holacsal_amount` = #{holacsalAmount}, </if>
+			<if test="contractAmount != null">`contract_amount` = #{contractAmount}, </if>
+			<if test="forecastAmount != null">`forecast_amount` = #{forecastAmount}, </if>
+			<if test="comletedAmount != null">`comleted_amount` = #{comletedAmount}, </if>
+			<if test="auditState != null">`audit_state` = #{auditState}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update biz_technical_economy set del_flag = '1' where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		update biz_technical_economy set del_flag = '1' where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

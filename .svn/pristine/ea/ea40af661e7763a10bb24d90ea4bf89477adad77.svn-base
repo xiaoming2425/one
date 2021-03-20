@@ -1,0 +1,209 @@
+package cn.wewintech.project.project.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.runtime.ProcessInstanceQuery;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.wewintech.project.project.domain.ProjectDO;
+import cn.wewintech.project.project.service.ProjectService;
+import cn.wewintech.activiti.service.ActTaskService;
+import cn.wewintech.common.domain.SeqNoName;
+import cn.wewintech.common.service.DictService;
+import cn.wewintech.common.service.SeqnoService;
+import cn.wewintech.common.utils.PageUtils;
+import cn.wewintech.common.utils.Query;
+import cn.wewintech.common.utils.ResultObject;
+
+/**
+ * 项目申请
+ * 
+ * @author 
+ * @email 
+ * @date 2020-05-25 09:00:27
+ */
+ 
+@Controller
+@RequestMapping("/project/project")
+public class ProjectController {
+	@Autowired
+	private ProjectService projectService;
+	@Autowired
+	private DictService dictService;
+	@Autowired
+	private SeqnoService seqNoService;
+	@Autowired
+	private ActTaskService actTaskService;
+	@Autowired
+	private TaskService taskService;
+	@Autowired
+	private RuntimeService runtimeService;
+	
+	
+	@GetMapping()
+	@RequiresPermissions("project:project:project")
+	String Project(){
+	    return "project/project/project";
+	}
+	
+	@ResponseBody
+	@GetMapping("/list")
+	@RequiresPermissions("project:project:project")
+	public PageUtils list(@RequestParam Map<String, Object> params){
+		//查询列表数据
+        Query query = new Query(params);
+		List<ProjectDO> projectList = projectService.list(query);
+		for (ProjectDO projectDO : projectList) {
+			projectDO.setProjectResource(dictService.findNameByValueAndType(projectDO.getProjectResource(), "project_resource"));
+			projectDO.setProjectType(dictService.findNameByValueAndType(projectDO.getProjectType(), "project_type"));
+			projectDO.setAuditState(dictService.findNameByValueAndType(projectDO.getAuditState(), "audit_state"));
+		}
+		int total = projectService.count(query);
+		PageUtils pageUtils = new PageUtils(projectList, total);
+		return pageUtils;
+	}
+	
+	@GetMapping("/add")
+	@RequiresPermissions("project:project:add")
+	String add(Model model){
+		String nextId = this.seqNoService.nextId(SeqNoName.CONFERENCE_NO_001.getCode());
+		model.addAttribute("projectCode", nextId);
+	    return "project/project/add";
+	}
+
+	@GetMapping("/edit/{id}")
+	@RequiresPermissions("project:project:edit")
+	String edit(@PathVariable("id") String id,Model model){
+		ProjectDO project = projectService.get(id);
+		model.addAttribute("project", project);
+	    return "project/project/edit";
+	}
+	
+	/**
+	 * 保存
+	 */
+	@ResponseBody
+	@PostMapping("/save")
+	@RequiresPermissions("project:project:add")
+	public ResultObject save( ProjectDO project){
+		if(projectService.save(project)>0){
+			return ResultObject.ok();
+		}
+		return ResultObject.error();
+	}
+	/**
+	 * 修改
+	 */
+	@ResponseBody
+	@RequestMapping("/update")
+	@RequiresPermissions("project:project:edit")
+	public ResultObject update( ProjectDO project){
+		projectService.update(project);
+		return ResultObject.ok();
+	}
+	
+	/**
+	 * 删除
+	 */
+	@PostMapping( "/remove")
+	@ResponseBody
+	@RequiresPermissions("project:project:remove")
+	public ResultObject remove( String id){
+		if(projectService.remove(id)>0){
+		return ResultObject.ok();
+		}
+		return ResultObject.error();
+	}
+	
+	/**
+	 * 删除
+	 */
+	@PostMapping( "/batchRemove")
+	@ResponseBody
+	@RequiresPermissions("project:project:batchRemove")
+	public ResultObject remove(@RequestParam("ids[]") String[] ids){
+		projectService.batchRemove(ids);
+		return ResultObject.ok();
+	}
+	
+	/**
+	 * 发送项目
+	 */
+	@PostMapping( "/send")
+	@ResponseBody
+	public ResultObject send( String id,String projectName){
+		Map<String, Object> vars = new HashMap();
+		String startProcess = actTaskService.startProcess("test_ac_01", "biz_project", id,projectName, vars);
+
+		if(startProcess==null){
+		return ResultObject.ok();
+		}
+		return ResultObject.error();
+	}
+	/**
+	 * 项目进入跳转
+	 */
+	@GetMapping("/auditForm/{taskId}/{processInstanceId}/{id}")
+	public String intoProjectAuditPage(@PathVariable("taskId") String taskId,
+			@PathVariable("processInstanceId") String processInstanceId,
+			@PathVariable("id") String id,
+			Model model,ProjectDO projectDO) {
+		ProjectDO project = projectService.get(id);
+		model.addAttribute("project", project);
+		
+		model.addAttribute("taskId", taskId);
+		model.addAttribute("processInstanceId", processInstanceId);
+		model.addAttribute("id", id);
+		
+		return "project/project/editAudit";
+	}
+	
+	/**
+	 * 审核保存
+	 */
+	@ResponseBody
+	@RequestMapping("/updateAudit")
+	public ResultObject updateAudit( ProjectDO project){
+		
+		ProjectDO projectDO = new ProjectDO();
+		projectDO.setId(project.getId());
+		taskService.complete(project.getTaskId());
+		
+		
+		if ("1".equals(project.getAuditMsg())) {
+			ProcessInstance singleResult = runtimeService.createProcessInstanceQuery().processInstanceId(project.getProcessInstanceId())
+					.singleResult();
+			if (null==singleResult) {
+				projectDO.setAuditState("4");
+				
+				projectService.update(projectDO);
+			}else {
+				projectDO.setAuditState("2");
+				projectService.update(projectDO);
+			}
+		}else {
+			//不通过删除
+			
+			
+		}
+		
+		
+		return ResultObject.ok();
+	}
+	
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wewintech.sale.customer.dao.CustomerDao">
+
+	<select id="get" resultType="cn.wewintech.sale.customer.domain.CustomerDO">
+		select `id`,`customer_no`,`customer_name`,`customer_type`,`user_id`,`dept_id`,`type`,`customer_resource`,`detail_address`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag` from biz_customer where id = #{value}
+			and del_flag = '0'
+	</select>
+
+	<select id="list" resultType="cn.wewintech.sale.customer.domain.CustomerDO">
+		select `id`,`customer_no`,`customer_name`,`customer_type`,`user_id`,`dept_id`,`type`,`customer_resource`,`detail_address`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag` from biz_customer
+        <where>  
+          del_flag = '0'
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="customerNo != null and customerNo != ''"> and customer_no = #{customerNo} </if>
+		  		  <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+		  		  <if test="customerType != null and customerType != ''"> and customer_type = #{customerType} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="customerResource != null and customerResource != ''"> and customer_resource = #{customerResource} </if>
+		  		  <if test="detailAddress != null and detailAddress != ''"> and detail_address = #{detailAddress} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from biz_customer
+		 <where>
+		  del_flag = '0'  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="customerNo != null and customerNo != ''"> and customer_no = #{customerNo} </if>
+		  		  <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+		  		  <if test="customerType != null and customerType != ''"> and customer_type = #{customerType} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="customerResource != null and customerResource != ''"> and customer_resource = #{customerResource} </if>
+		  		  <if test="detailAddress != null and detailAddress != ''"> and detail_address = #{detailAddress} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="cn.wewintech.sale.customer.domain.CustomerDO">
+		insert into biz_customer
+		(
+			`id`, 
+			`customer_no`, 
+			`customer_name`, 
+			`customer_type`, 
+			`user_id`, 
+			`dept_id`, 
+			`type`, 
+			`customer_resource`, 
+			`detail_address`, 
+			`create_by`, 
+			`create_date`, 
+			`update_by`, 
+			`update_date`, 
+			`remarks`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{customerNo}, 
+			#{customerName}, 
+			#{customerType}, 
+			#{userId}, 
+			#{deptId}, 
+			#{type}, 
+			#{customerResource}, 
+			#{detailAddress}, 
+			#{createBy}, 
+			#{createDate}, 
+			#{updateBy}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.wewintech.sale.customer.domain.CustomerDO">
+		update biz_customer 
+		<set>
+			<if test="customerNo != null">`customer_no` = #{customerNo}, </if>
+			<if test="customerName != null">`customer_name` = #{customerName}, </if>
+			<if test="customerType != null">`customer_type` = #{customerType}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="customerResource != null">`customer_resource` = #{customerResource}, </if>
+			<if test="detailAddress != null">`detail_address` = #{detailAddress}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update biz_customer set del_flag = '1' where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		update biz_customer set del_flag = '1' where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

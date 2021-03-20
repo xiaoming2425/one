@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wewintech.common.dao.SeqnoDao">
+
+<resultMap id="seqNoResult" type="cn.wewintech.common.domain.SeqnoDO">
+    	<id property="id" column="id"/>
+    	<result property="categoryCode" column="category_code"/>
+    	<result property="categoryName" column="category_name"/>
+    	<result property="seqnoCode" column="seqno_code"/>
+    	<result property="seqnoName" column="seqno_name"/>
+    	<result property="rule" column="rule"/>
+    	<result property="genType" column="gen_type"/>
+    	<result property="noLength" column="no_length"/>
+    	<result property="curDate" column="cur_date"/>
+    	<result property="initValue" column="init_value"/>
+    	<result property="curValue" column="cur_value"/>
+    	<result property="step" column="step"/>
+    	<result property="status" column="status"/>
+</resultMap>
+
+<sql id="seqNoColums">
+		a.id,
+		a.category_code,
+		a.category_name,
+		a.seqno_code,
+		a.seqno_name,
+		a.rule,
+		a.gen_type,
+		a.no_length,
+		a.cur_date,
+		a.init_value,
+		a.cur_value,
+		a.step,
+		a.status,
+		a.create_by AS "createBy",
+		a.create_date,
+		a.update_by AS "updateBy",
+		a.update_date,
+		a.del_flag
+	</sql>
+
+	<select id="get" resultType="cn.wewintech.common.domain.SeqnoDO">
+		select `id`,`category_code`,`category_name`,`seqno_code`,`seqno_name`,`rule`,`gen_type`,`no_length`,`cur_date`,`init_value`,`cur_value`,`step`,`status`,`create_by`,`create_date`,`update_by`,`update_date`,`del_flag` from sys_seqno where id = #{value}
+			and del_flag = '0'
+	</select>
+
+	<select id="list" resultType="cn.wewintech.common.domain.SeqnoDO">
+		select `id`,`category_code`,`category_name`,`seqno_code`,`seqno_name`,`rule`,`gen_type`,`no_length`,`cur_date`,`init_value`,`cur_value`,`step`,`status`,`create_by`,`create_date`,`update_by`,`update_date`,`del_flag` from sys_seqno
+        <where>  
+          del_flag = '0'
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="categoryCode != null and categoryCode != ''"> and category_code = #{categoryCode} </if>
+		  		  <if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
+		  		  <if test="seqnoCode != null and seqnoCode != ''"> and seqno_code = #{seqnoCode} </if>
+		  		  <if test="seqnoName != null and seqnoName != ''"> and seqno_name = #{seqnoName} </if>
+		  		  <if test="rule != null and rule != ''"> and rule = #{rule} </if>
+		  		  <if test="genType != null and genType != ''"> and gen_type = #{genType} </if>
+		  		  <if test="noLength != null and noLength != ''"> and no_length = #{noLength} </if>
+		  		  <if test="curDate != null and curDate != ''"> and cur_date = #{curDate} </if>
+		  		  <if test="initValue != null and initValue != ''"> and init_value = #{initValue} </if>
+		  		  <if test="curValue != null and curValue != ''"> and cur_value = #{curValue} </if>
+		  		  <if test="step != null and step != ''"> and step = #{step} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_seqno
+		 <where>
+		  del_flag = '0'  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="categoryCode != null and categoryCode != ''"> and category_code = #{categoryCode} </if>
+		  		  <if test="categoryName != null and categoryName != ''"> and category_name = #{categoryName} </if>
+		  		  <if test="seqnoCode != null and seqnoCode != ''"> and seqno_code = #{seqnoCode} </if>
+		  		  <if test="seqnoName != null and seqnoName != ''"> and seqno_name = #{seqnoName} </if>
+		  		  <if test="rule != null and rule != ''"> and rule = #{rule} </if>
+		  		  <if test="genType != null and genType != ''"> and gen_type = #{genType} </if>
+		  		  <if test="noLength != null and noLength != ''"> and no_length = #{noLength} </if>
+		  		  <if test="curDate != null and curDate != ''"> and cur_date = #{curDate} </if>
+		  		  <if test="initValue != null and initValue != ''"> and init_value = #{initValue} </if>
+		  		  <if test="curValue != null and curValue != ''"> and cur_value = #{curValue} </if>
+		  		  <if test="step != null and step != ''"> and step = #{step} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="cn.wewintech.common.domain.SeqnoDO">
+		insert into sys_seqno
+		(
+			`id`, 
+			`category_code`, 
+			`category_name`, 
+			`seqno_code`, 
+			`seqno_name`, 
+			`rule`, 
+			`gen_type`, 
+			`no_length`, 
+			`cur_date`, 
+			`init_value`, 
+			`cur_value`, 
+			`step`, 
+			`status`, 
+			`create_by`, 
+			`create_date`, 
+			`update_by`, 
+			`update_date`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{categoryCode}, 
+			#{categoryName}, 
+			#{seqnoCode}, 
+			#{seqnoName}, 
+			#{rule}, 
+			#{genType}, 
+			#{noLength}, 
+			#{curDate}, 
+			#{initValue}, 
+			#{curValue}, 
+			#{step}, 
+			#{status}, 
+			#{createBy}, 
+			#{createDate}, 
+			#{updateBy}, 
+			#{updateDate}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.wewintech.common.domain.SeqnoDO">
+		update sys_seqno 
+		<set>
+			<if test="categoryCode != null">`category_code` = #{categoryCode}, </if>
+			<if test="categoryName != null">`category_name` = #{categoryName}, </if>
+			<if test="seqnoCode != null">`seqno_code` = #{seqnoCode}, </if>
+			<if test="seqnoName != null">`seqno_name` = #{seqnoName}, </if>
+			<if test="rule != null">`rule` = #{rule}, </if>
+			<if test="genType != null">`gen_type` = #{genType}, </if>
+			<if test="noLength != null">`no_length` = #{noLength}, </if>
+			<if test="curDate != null">`cur_date` = #{curDate}, </if>
+			<if test="initValue != null">`init_value` = #{initValue}, </if>
+			<if test="curValue != null">`cur_value` = #{curValue}, </if>
+			<if test="step != null">`step` = #{step}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update sys_seqno set del_flag = '1' where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		update sys_seqno set del_flag = '1' where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+	<select id="getByCode" resultMap="seqNoResult">
+		SELECT 
+			<include refid="seqNoColums" />
+		FROM
+			sys_seqno a
+		WHERE
+			a.seqno_code = #{seqnoCode}
+		AND a.del_flag = '0'
+	</select>
+	
+	<select id="getByName" resultMap="seqNoResult">
+		SELECT 
+			<include refid="seqNoColums" />
+		FROM
+			sys_seqno a
+		WHERE
+			a.seqno_name = #{seqnoName}
+		AND a.del_flag = '0'
+	</select>
+	
+	 <!--  根据编号编码更新流水号  -->
+    <update id="updateNo">
+    	UPDATE sys_seqno
+    	SET 
+			cur_date = #{curDate},
+		<if test="newCurValue != null and newCurValue != ''">
+			cur_value = #{newCurValue},
+		</if>
+			update_by = #{updateBy},
+			update_date = #{updateDate}
+		WHERE 
+			seqno_code = #{seqnoCode}
+    </update>
+    
+    
+    <select id="getByCategory" resultMap="seqNoResult">
+		SELECT 
+			<include refid="seqNoColums" />
+		FROM
+			sys_seqno a
+		WHERE
+			a.del_flag = '0'
+			<if test="categoryCode != null and categoryCode != ''">
+				AND a.category_code = #{categoryCode}
+			</if>
+	</select>
+	
+	
+	<!-- 插入编号的历史记录 -->
+	<insert id="insertSeqNoHistory">
+		INSERT INTO sys_seqno_history (
+				seqno_code,
+				cur_date,
+				max_value
+			) VALUES (
+				#{seqnoCode},
+				#{curDate},
+				#{curValue}
+			)
+	</insert>
+	
+	
+	<select id="getHistorySeqNo" resultType="cn.wewintech.common.domain.SeqnoDO">
+		SELECT 
+			seqno_code,
+			cur_date,
+			max_value AS "cur_value"
+		FROM sys_seqno_history
+		WHERE
+			seqno_code = #{seqnoCode}
+		AND
+			cur_date = #{curDate}
+	</select>
+	
+	
+	<delete id="deleteSeqNoHistory">
+		DELETE FROM sys_seqno_history 
+		WHERE 
+			seqno_code = #{seqnoCode}
+		AND
+			cur_date = #{curDate}
+	</delete>
+
+</mapper>
